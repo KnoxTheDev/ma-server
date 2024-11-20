@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Online Bash Console</title>
+    <style>
+        body {
+            font-family: monospace;
+            padding: 20px;
+        }
+        #output {
+            white-space: pre-wrap;
+            background-color: #000;
+            color: #00ff00;
+            padding: 10px;
+            height: 400px;
+            overflow-y: auto;
+        }
+        #input {
+            width: 100%;
+            padding: 10px;
+            margin-top: 10px;
+            background-color: #222;
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+    <h1>Online Bash Console</h1>
+    <div id="output"></div>
+    <input id="input" type="text" placeholder="Enter bash command..." />
+
+    <script>
+        const ws = new WebSocket('ws://localhost:8765');
+        const outputDiv = document.getElementById('output');
+        const inputBox = document.getElementById('input');
+
+        // When the WebSocket opens, handle the command input
+        ws.onopen = () => {
+            console.log('WebSocket connection established');
+        };
+
+        // When a message is received from the server (bash output)
+        ws.onmessage = (event) => {
+            outputDiv.textContent += event.data;
+            outputDiv.scrollTop = outputDiv.scrollHeight;
+        };
+
+        // Send the command when the user presses Enter
+        inputBox.addEventListener('keydown', (event) => {
+            if (event.key === 'Enter') {
+                const command = inputBox.value;
+                if (command.trim()) {
+                    ws.send(command);
+                    inputBox.value = ''; // Clear the input box
+                }
+            }
+        });
+    </script>
+</body>
+</html>

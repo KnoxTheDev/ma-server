@@ -1,0 +1,15 @@
+{
+  "render-threads-enabled": true,
+  "maps": {
+    "boombastic_smp_the_end": {
+      "update-enabled": true
+    },
+    "boombastic_smp_nether": {
+      "update-enabled": true
+    },
+    "boombastic_smp": {
+      "update-enabled": true
+    }
+  },
+  "hidden-players": []
+}
